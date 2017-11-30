@@ -7,7 +7,7 @@ window.onload = () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     light.position.set(1, 1, 1);
-    camera.position.set(0, 5, 15);
+    camera.position.set(0, 10, 35);
     camera.lookAt(scene.position);
     scene.add(light);
     scene.add(camera);
@@ -16,39 +16,58 @@ window.onload = () => {
 
     var group = new THREE.Group();
 
-    // cube (mesh) subtract Sphere (mesh)
-    cube_geometry = new THREE.CubeGeometry(3, 3, 3);
-    cube_mesh = new THREE.Mesh(cube_geometry);
-    cube_csg = new ThreeCSG(cube_mesh);
-    sphere_geometry = new THREE.SphereGeometry(1.8, 32, 32);
-    sphere_mesh = new THREE.Mesh(sphere_geometry);
-    sphere_csg = new ThreeCSG(sphere_mesh);
-    subtract_csg = cube_csg.subtract(sphere_csg);
-    result = subtract_csg.toMesh(new THREE.MeshLambertMaterial());
+    boxWithWidth = new ThreeCSG(new THREE.Mesh(new THREE.BoxGeometry(4, 1, 1)));
+    result = boxWithWidth.toMesh(new THREE.MeshLambertMaterial());
     result.position.x = -8;
+    result.position.y = -8;
     group.add(result);
 
-    // sphere (geometry) union Cube (geometry)
-    sphere_geometry = new THREE.SphereGeometry(2, 16, 16);
-    sphere_csg = new ThreeCSG(sphere_geometry);
-    cube_geometry = new THREE.CubeGeometry(7, .5, 3);
-    cube_csg = new ThreeCSG(cube_geometry);
-    union_csg = sphere_csg.union(cube_csg);
-    result = union_csg.toMesh(new THREE.MeshLambertMaterial());
-    result.geometry.computeVertexNormals();
+    boxWithHeight = new ThreeCSG(new THREE.Mesh(new THREE.BoxGeometry(1, 4, 1)));
+    result = boxWithHeight.toMesh(new THREE.MeshLambertMaterial());
+    result.position.x = -4;
+    result.position.y = -8;
     group.add(result);
 
-    // sphere (geometry) intersect Sphere (mesh)
-    sphere_geometry_1 = new THREE.SphereGeometry(2, 64, 8);
-    sphere_csg_1 = new ThreeCSG(sphere_geometry_1);
-    sphere_geometry_2 = new THREE.SphereGeometry(2, 8, 32);
-    sphere_mesh_2 = new THREE.Mesh(sphere_geometry_2);
-    sphere_mesh_2.position.x = 2;
-    sphere_csg_2 = new ThreeCSG(sphere_mesh_2);
-    intersect_csg = sphere_csg_1.intersect(sphere_csg_2);
-    result = intersect_csg.toMesh(new THREE.MeshLambertMaterial());
+    boxWithHeightAndWidth = boxWithWidth.union(boxWithHeight);
+    result = boxWithHeightAndWidth.toMesh(new THREE.MeshLambertMaterial());
+    result.position.x = -6;
+    result.position.y = -2;
+    group.add(result);
+
+    boxWithDepth = new ThreeCSG(new THREE.Mesh(new THREE.BoxGeometry(1, 1, 4)));
+    result = boxWithDepth.toMesh(new THREE.MeshLambertMaterial());
+    result.position.x = -2;
+    result.position.y = -2;
+    group.add(result);
+
+    sphere = new ThreeCSG(new THREE.Mesh(new THREE.SphereGeometry(2, 32, 32)));
+    result = sphere.toMesh(new THREE.MeshLambertMaterial());
+    result.position.x = 2;
+    result.position.y = -2;
+    group.add(result);
+
+    box = new ThreeCSG(new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3)));
+    result = box.toMesh(new THREE.MeshLambertMaterial());
     result.position.x = 6;
-    result.geometry.computeVertexNormals();
+    result.position.y = -2;
+    group.add(result);
+
+    boxWithHeightAndWidthAndDepth = boxWithHeightAndWidth.union(boxWithDepth);
+    result = boxWithHeightAndWidthAndDepth.toMesh(new THREE.MeshLambertMaterial());
+    result.position.x = -4;
+    result.position.y = 4;
+    group.add(result);
+
+    spherePlusBox = sphere.subtract(box);
+    result = spherePlusBox.toMesh(new THREE.MeshLambertMaterial());
+    result.position.x = 4;
+    result.position.y = 4;
+    group.add(result);
+
+    final = boxWithHeightAndWidthAndDepth.union(spherePlusBox);
+    result = final.toMesh(new THREE.MeshLambertMaterial());
+    result.position.x = 0;
+    result.position.y = 10;
     group.add(result);
 
     scene.add(group);
