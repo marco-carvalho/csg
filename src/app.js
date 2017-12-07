@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import {ThreeCSG} from './threeCSG'
 
 let renderer = new THREE.WebGLRenderer();
-let light = new THREE.DirectionalLight(0xffffff);
+let light = new THREE.DirectionalLight();
 let camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 let scene = new THREE.Scene();
 
@@ -43,13 +43,17 @@ result.position.y = -2;
 group.add(result);
 
 let sphere = new ThreeCSG(new THREE.Mesh(new THREE.SphereGeometry(2, 32, 32)));
-result = sphere.toMesh(new THREE.MeshLambertMaterial());
+result = sphere.toMesh(new THREE.MeshLambertMaterial({
+  color: 0xff0000
+}));
 result.position.x = 2;
 result.position.y = -2;
 group.add(result);
 
 let box = new ThreeCSG(new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3)));
-result = box.toMesh(new THREE.MeshLambertMaterial());
+result = box.toMesh(new THREE.MeshLambertMaterial({
+  color: 0x00ff00
+}));
 result.position.x = 6;
 result.position.y = -2;
 group.add(result);

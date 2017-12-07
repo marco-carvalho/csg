@@ -110,8 +110,12 @@ export class PolygonCSG {
                 ti = this.classifyVertex(vi);
                 tj = this.classifyVertex(vj);
 
-                if (ti != 2) f.push(vi);
-                if (ti != 1) b.push(vi);
+                if (ti !== 2) {
+                  f.push(vi);
+                }
+                if (ti !== 1) {
+                  b.push(vi);
+                }
                 if ((ti | tj) === 3) {
                     t = (this.w - this.normal.dot(vi)) / this.normal.dot(vj.clone().subtract(vi));
                     v = vi.interpolate(vj, t);
@@ -120,8 +124,12 @@ export class PolygonCSG {
                 }
             }
 
-            if (f.length >= 3) front.push(new PolygonCSG(f).calculateProperties());
-            if (b.length >= 3) back.push(new PolygonCSG(b).calculateProperties());
+            if (f.length >= 3) {
+              front.push(new PolygonCSG(f).calculateProperties());
+            }
+            if (b.length >= 3) {
+              back.push(new PolygonCSG(b).calculateProperties());
+            }
         }
     }
 };
