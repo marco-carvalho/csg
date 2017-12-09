@@ -1,0 +1,24 @@
+{
+    "extends": [
+        "tslint:latest"
+    ],
+    "rules": {
+        "no-any": true,
+        "typedef": [
+            true,
+            "call-signature",
+            "arrow-call-signature",
+            "parameter",
+            "arrow-parameter",
+            "property-declaration",
+            "member-variable-declaration",
+            "object-destructuring",
+            "array-destructuring"
+        ],
+        "no-bitwise": false,
+        "variable-name": [true, "allow-leading-underscore"],
+        "jsdoc-format": false,
+        "trailing-comma": false
+    },
+    "defaultSeverity": "warn"
+}
