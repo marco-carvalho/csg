@@ -8,10 +8,14 @@ Constructive solid geometry (CSG) is a technique used in solid modeling that all
 
 ## Quickstart:
 `git clone http://github.com/marco-carvalho/computer-graphics`
+
 `cd computer-graphics/csg`
+
 `npm i`
+
 `npm run server`
 
 ## Configuration:
 `npm run tsc`
+
 Open `./src/app.ts` and alter from `import group from "./examples/1";` to `import group from "./examples/2";`
