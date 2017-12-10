@@ -1,13 +1,13 @@
 import * as THREE from "three";
 
 export class VertexCSG {
-    private x: number;
-    private y: number;
-    private z: number;
-    private normal: VertexCSG;
-    private uv: VertexCSG;
+    private x;
+    private y;
+    private z;
+    private normal;
+    private uv;
 
-    constructor(x: number, y: number, z: number, normal: VertexCSG, uv: VertexCSG) {
+    constructor(x?, y?, z?, normal?, uv?) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -15,68 +15,88 @@ export class VertexCSG {
         this.uv = uv || new THREE.Vector2();
     }
 
-    public clone(): VertexCSG {
+    public clone() {
         return new VertexCSG(this.x, this.y, this.z, this.normal.clone(), this.uv.clone());
     }
 
-    public add(vertex: VertexCSG): VertexCSG {
+    public add(vertex) {
         this.x += vertex.x;
         this.y += vertex.y;
         this.z += vertex.z;
         return this;
     }
 
-    public subtract(vertex: VertexCSG): VertexCSG {
+    public subtract(vertex) {
         this.x -= vertex.x;
         this.y -= vertex.y;
         this.z -= vertex.z;
         return this;
     }
 
-    public multiplyScalar(scalar: number): VertexCSG {
+    public multiplyScalar(scalar) {
         this.x *= scalar;
         this.y *= scalar;
         this.z *= scalar;
         return this;
     }
 
-    public cross(vertex: VertexCSG): VertexCSG {
+    public cross(vertex) {
         const x = this.x;
         const y = this.y;
         const z = this.z;
+
         this.x = y * vertex.z - z * vertex.y;
         this.y = z * vertex.x - x * vertex.z;
         this.z = x * vertex.y - y * vertex.x;
+
         return this;
     }
 
-    public normalize(): VertexCSG {
+    public normalize() {
         const length = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+
         this.x /= length;
         this.y /= length;
         this.z /= length;
+
         return this;
     }
 
-    public dot(vertex: VertexCSG): number {
+    public dot(vertex) {
         return this.x * vertex.x + this.y * vertex.y + this.z * vertex.z;
     }
 
-    public lerp(a, t: VertexCSG): VertexCSG {
-        this.add(a.clone().subtract(this).multiplyScalar(t));
-        this.normal.add(a.normal.clone().sub(this.normal).multiplyScalar(t));
-        this.uv.add(a.uv.clone().sub(this.uv).multiplyScalar(t));
+    public lerp(a, t) {
+        this.add(
+            a.clone().subtract(this).multiplyScalar(t)
+        );
+
+        this.normal.add(
+            a.normal.clone().sub(this.normal).multiplyScalar(t)
+        );
+
+        this.uv.add(
+            a.uv.clone().sub(this.uv).multiplyScalar(t)
+        );
+
         return this;
     }
 
-    public interpolate(other: VertexCSG, t: VertexCSG): VertexCSG {
+    public interpolate(other, t) {
         return this.clone().lerp(other, t);
     }
 
-    public applyMatrix4(m): VertexCSG {
-        this.x = m.elements[0] * this.x + m.elements[4] * this.y + m.elements[8] * this.z + m.elements[12];
-        this.y = m.elements[1] * this.x + m.elements[5] * this.y + m.elements[9] * this.z + m.elements[13];
-        this.z = m.elements[2] * this.x + m.elements[6] * this.y + m.elements[10] * this.z + m.elements[14];
+    public applyMatrix4(m) {
+        const x = this.x;
+        const y = this.y;
+        const z = this.z;
+
+        const e = m.elements;
+
+        this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
+        this.y = e[1] * x + e[5] * y + e[9] * z + e[13];
+        this.z = e[2] * x + e[6] * y + e[10] * z + e[14];
+
         return this;
     }
 }

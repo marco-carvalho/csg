@@ -1,4 +1,4 @@
-import { VertexCSG } from "./vertexCSG";
+import {EPSILON, BACK, COPLANAR, FRONT, SPANNING} from "./threeCSG";
 
 export class PolygonCSG {
     private vertices;
@@ -18,7 +18,7 @@ export class PolygonCSG {
         }
     }
 
-    public calculateProperties(): PolygonCSG {
+    public calculateProperties() {
         const a = this.vertices[0];
         const b = this.vertices[1];
         const c = this.vertices[2];
@@ -30,7 +30,7 @@ export class PolygonCSG {
         return this;
     }
 
-    public clone(): PolygonCSG {
+    public clone() {
         const polygon = new PolygonCSG();
 
         for (const vertice of this.vertices) {
@@ -41,7 +41,7 @@ export class PolygonCSG {
         return polygon;
     }
 
-    public flip(): PolygonCSG {
+    public flip() {
         const vertices = [];
 
         this.normal.multiplyScalar(-1);
@@ -55,47 +55,51 @@ export class PolygonCSG {
         return this;
     }
 
-    public classifyVertex(vertex: VertexCSG): 1 | 2 {
+    public classifyVertex(vertex) {
         const sideValue = this.normal.dot(vertex) - this.w;
 
-        if (sideValue < -0.0001) {
-            return 2;
-        } else if (sideValue > 0.0001) {
-            return 1;
+        if (sideValue < -EPSILON) {
+            return BACK;
+        } else if (sideValue > EPSILON) {
+            return FRONT;
+        } else {
+            return COPLANAR;
         }
     }
 
-    public classifySide(polygon): 0 | 1 | 2 {
+    public classifySide(polygon) {
         let classification;
         let numPositive = 0;
         let numNegative = 0;
 
         for (const vertice of polygon.vertices) {
             classification = this.classifyVertex(vertice);
-            if (classification === 1) {
+            if (classification === FRONT) {
                 numPositive++;
-            } else if (classification === 2) {
+            } else if (classification === BACK) {
                 numNegative++;
             }
         }
 
         if (numPositive > 0 && numNegative === 0) {
-            return 1;
+            return FRONT;
         } else if (numPositive === 0 && numNegative > 0) {
-            return 2;
+            return BACK;
         } else if (numPositive === 0 && numNegative === 0) {
-            return 0;
+            return COPLANAR;
+        } else {
+            return SPANNING;
         }
     }
 
-    public splitPolygon(polygon, coplanarFront, coplanarBack, front, back): void {
+    public splitPolygon(polygon, coplanarFront, coplanarBack, front, back) {
         const classification = this.classifySide(polygon);
 
-        if (classification === 0) {
+        if (classification === COPLANAR) {
             (this.normal.dot(polygon.normal) > 0 ? coplanarFront : coplanarBack).push(polygon);
-        } else if (classification === 1) {
+        } else if (classification === FRONT) {
             front.push(polygon);
-        } else if (classification === 2) {
+        } else if (classification === BACK) {
             back.push(polygon);
         } else {
             let ti;
@@ -106,7 +110,6 @@ export class PolygonCSG {
             let v;
             const f = [];
             const b = [];
-
             for (let i = 0; i < polygon.vertices.length; i++) {
                 const j = (i + 1) % polygon.vertices.length;
                 vi = polygon.vertices[i];
@@ -114,13 +117,13 @@ export class PolygonCSG {
                 ti = this.classifyVertex(vi);
                 tj = this.classifyVertex(vj);
 
-                if (ti !== 2) {
-                  f.push(vi);
+                if (ti !== BACK) {
+                    f.push(vi);
                 }
-                if (ti !== 1) {
-                  b.push(vi);
+                if (ti !== FRONT) {
+                    b.push(vi);
                 }
-                if ((ti | tj) === 3) {
+                if ((ti | tj) === SPANNING) {
                     t = (this.w - this.normal.dot(vi)) / this.normal.dot(vj.clone().subtract(vi));
                     v = vi.interpolate(vj, t);
                     f.push(v);
@@ -129,10 +132,10 @@ export class PolygonCSG {
             }
 
             if (f.length >= 3) {
-              front.push(new PolygonCSG(f).calculateProperties());
+                front.push(new PolygonCSG(f).calculateProperties());
             }
             if (b.length >= 3) {
-              back.push(new PolygonCSG(b).calculateProperties());
+                back.push(new PolygonCSG(b).calculateProperties());
             }
         }
     }
