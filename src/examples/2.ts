@@ -1,26 +1,23 @@
 import * as THREE from "three";
-import {ThreeCSG} from "../threeCSG";
+import { ThreeCSG } from "../threeCSG";
 
 const group = new THREE.Group();
 
-const sphere = new ThreeCSG(new THREE.Mesh(new THREE.SphereGeometry(2, 32, 32)));
-const box = new ThreeCSG(new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3)));
+const sphereMesh = [
+    new THREE.Mesh(new THREE.SphereGeometry(1, 32, 8)),
+    new THREE.Mesh(new THREE.SphereGeometry(1, 8, 32))
+];
 
-const obj1 = box.union(sphere);
-let result = obj1.toMesh(new THREE.MeshLambertMaterial());
-result.position.x = -5;
-result.position.y = 0;
-group.add(result);
+sphereMesh[1].position.x = 3;
 
-const obj2 = box.subtract(sphere);
-result = obj2.toMesh(new THREE.MeshLambertMaterial());
+const sphereCSG = [
+    new ThreeCSG(sphereMesh[0]),
+    new ThreeCSG(sphereMesh[1])
+];
+
+const intersectCSG = sphereCSG[0].intersect(sphereCSG[1]);
+const result = intersectCSG.toMesh(new THREE.MeshLambertMaterial());
 result.position.x = 0;
-result.position.y = 0;
-group.add(result);
-
-const obj3 = box.intersect(sphere);
-result = obj3.toMesh(new THREE.MeshLambertMaterial());
-result.position.x = 5;
 result.position.y = 0;
 group.add(result);
 
