@@ -12,7 +12,7 @@ export class NodeCSG {
         this.front = this.back = undefined;
 
         if (!(polygons instanceof Array) || polygons.length === 0) {
-          return;
+            return;
         }
 
         this.divider = polygons[0].clone();
@@ -40,14 +40,14 @@ export class NodeCSG {
 
         if (front.length > 0) {
             if (!this.front) {
-              this.front = new NodeCSG();
+                this.front = new NodeCSG();
             }
             this.front.build(front);
         }
 
         if (back.length > 0) {
             if (!this.back) {
-              this.back = new NodeCSG();
+                this.back = new NodeCSG();
             }
             this.back.build(back);
         }
@@ -56,10 +56,10 @@ export class NodeCSG {
     public allPolygons() {
         let polygons = this.polygons.slice();
         if (this.front) {
-          polygons = polygons.concat(this.front.allPolygons());
+            polygons = polygons.concat(this.front.allPolygons());
         }
         if (this.back) {
-          polygons = polygons.concat(this.back.allPolygons());
+            polygons = polygons.concat(this.back.allPolygons());
         }
         return polygons;
     }
@@ -84,10 +84,10 @@ export class NodeCSG {
 
         this.divider.flip();
         if (this.front) {
-          this.front.invert();
+            this.front.invert();
         }
         if (this.back) {
-          this.back.invert();
+            this.back.invert();
         }
 
         temp = this.front;
@@ -98,22 +98,19 @@ export class NodeCSG {
     }
 
     public clipPolygons(polygons) {
-        let front;
-        let back;
+        let front = [];
+        let back = [];
 
         if (!this.divider) {
-          return polygons.slice();
+            return polygons.slice();
         }
-
-        front = [];
-        back = [];
 
         for (const polygon of polygons) {
             this.divider.splitPolygon(polygon, front, back, front, back);
         }
 
         if (this.front) {
-          front = this.front.clipPolygons(front);
+            front = this.front.clipPolygons(front);
         }
 
         back = this.back ? this.back.clipPolygons(back) : [];
@@ -121,13 +118,13 @@ export class NodeCSG {
         return front.concat(back);
     }
 
-    public clipTo(node): void {
+    public clipTo(node: NodeCSG): void {
         this.polygons = node.clipPolygons(this.polygons);
         if (this.front) {
-          this.front.clipTo(node);
+            this.front.clipTo(node);
         }
         if (this.back) {
-          this.back.clipTo(node);
+            this.back.clipTo(node);
         }
     }
 }

@@ -1,3 +1,5 @@
+import { VertexCSG } from "./vertexCSG";
+
 export class PolygonCSG {
     private vertices;
     private normal;
@@ -53,7 +55,7 @@ export class PolygonCSG {
         return this;
     }
 
-    public classifyVertex(vertex): 1 | 2 {
+    public classifyVertex(vertex: VertexCSG): 1 | 2 {
         const sideValue = this.normal.dot(vertex) - this.w;
 
         if (sideValue < -0.0001) {

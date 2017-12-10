@@ -4,10 +4,10 @@ export class VertexCSG {
     private x: number;
     private y: number;
     private z: number;
-    private normal;
-    private uv;
+    private normal: VertexCSG;
+    private uv: VertexCSG;
 
-    constructor(x: number, y: number, z: number, normal, uv) {
+    constructor(x: number, y: number, z: number, normal: VertexCSG, uv: VertexCSG) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -19,28 +19,28 @@ export class VertexCSG {
         return new VertexCSG(this.x, this.y, this.z, this.normal.clone(), this.uv.clone());
     }
 
-    public add(vertex): VertexCSG {
+    public add(vertex: VertexCSG): VertexCSG {
         this.x += vertex.x;
         this.y += vertex.y;
         this.z += vertex.z;
         return this;
     }
 
-    public subtract(vertex): VertexCSG {
+    public subtract(vertex: VertexCSG): VertexCSG {
         this.x -= vertex.x;
         this.y -= vertex.y;
         this.z -= vertex.z;
         return this;
     }
 
-    public multiplyScalar(scalar): VertexCSG {
+    public multiplyScalar(scalar: number): VertexCSG {
         this.x *= scalar;
         this.y *= scalar;
         this.z *= scalar;
         return this;
     }
 
-    public cross(vertex): VertexCSG {
+    public cross(vertex: VertexCSG): VertexCSG {
         const x = this.x;
         const y = this.y;
         const z = this.z;
@@ -58,18 +58,18 @@ export class VertexCSG {
         return this;
     }
 
-    public dot(vertex): number {
+    public dot(vertex: VertexCSG): number {
         return this.x * vertex.x + this.y * vertex.y + this.z * vertex.z;
     }
 
-    public lerp(a, t): VertexCSG {
+    public lerp(a, t: VertexCSG): VertexCSG {
         this.add(a.clone().subtract(this).multiplyScalar(t));
         this.normal.add(a.normal.clone().sub(this.normal).multiplyScalar(t));
         this.uv.add(a.uv.clone().sub(this.uv).multiplyScalar(t));
         return this;
     }
 
-    public interpolate(other, t): VertexCSG {
+    public interpolate(other: VertexCSG, t: VertexCSG): VertexCSG {
         return this.clone().lerp(other, t);
     }
 

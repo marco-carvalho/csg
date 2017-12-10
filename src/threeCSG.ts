@@ -55,7 +55,7 @@ export class ThreeCSG {
     }
 
     public subtract(otherTree: ThreeCSG): ThreeCSG {
-        let a = this.tree.clone();
+        const a = this.tree.clone();
         const b = otherTree.tree.clone();
 
         a.invert();
@@ -66,13 +66,14 @@ export class ThreeCSG {
         b.invert();
         a.build(b.allPolygons());
         a.invert();
-        a = new ThreeCSG(a);
-        a.matrix = this.matrix;
-        return a;
+
+        const newTree = new ThreeCSG(a);
+        newTree.matrix = this.matrix;
+        return newTree;
     }
 
     public union(otherTree: ThreeCSG): ThreeCSG {
-        let a = this.tree.clone();
+        const a = this.tree.clone();
         const b = otherTree.tree.clone();
 
         a.clipTo(b);
@@ -81,13 +82,14 @@ export class ThreeCSG {
         b.clipTo(a);
         b.invert();
         a.build(b.allPolygons());
-        a = new ThreeCSG(a);
-        a.matrix = this.matrix;
-        return a;
+
+        const newTree = new ThreeCSG(a);
+        newTree.matrix = this.matrix;
+        return newTree;
     }
 
     public intersect(otherTree: ThreeCSG): ThreeCSG {
-        let a = this.tree.clone();
+        const a = this.tree.clone();
         const b = otherTree.tree.clone();
 
         a.invert();
@@ -97,12 +99,13 @@ export class ThreeCSG {
         b.clipTo(a);
         a.build(b.allPolygons());
         a.invert();
-        a = new ThreeCSG(a);
-        a.matrix = this.matrix;
-        return a;
+
+        const newTree = new ThreeCSG(a);
+        newTree.matrix = this.matrix;
+        return newTree;
     }
 
-    public toGeometry() {
+    public toGeometry(): THREE.Geometry {
         const matrix = new THREE.Matrix4().getInverse(this.matrix);
         const geometry = new THREE.Geometry();
         const verticeDict = {};
