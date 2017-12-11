@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import group from "./examples/1";
+import group from "./src/examples/1";
 
 const renderer = new THREE.WebGLRenderer();
 const light = new THREE.DirectionalLight();
