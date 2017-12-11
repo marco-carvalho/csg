@@ -1,7 +1,7 @@
 [simpleExample]:https://i.imgur.com/1rLiDz1.png
 [bigExample]:https://i.imgur.com/v2qAHTu.png
 
-This is a forked project from https://github.com/chandlerprall/ThreeCSG and kinda improved with the help of [TypeScript](https://www.typescriptlang.org/) and [Webpack](https://webpack.js.org/).
+This is a forked project from https://github.com/chandlerprall/ThreeCSG and kinda improved with the help of [Webpack](https://webpack.js.org/), [TypeScript](https://www.typescriptlang.org/) and [Pug](https://pugjs.org/api/getting-started.html).
 
 ## Requirements:
 `sudo apt install npm` or download [Node.js](https://nodejs.org/en/) and install NPM.
@@ -16,7 +16,6 @@ This is a forked project from https://github.com/chandlerprall/ThreeCSG and kind
 `npm run server`
 
 ## Configuration:
-`npm run tsc`
 
 Open `./src/app.ts` and alter from `import group from "./examples/1";` to `import group from "./examples/2";`
 
