@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "webpack-dev-server --output-public-path=/build/",
+    "server": "webpack-dev-server",
     "tsc": "tsc --watch"
   },
   "keywords": [],
