@@ -12,12 +12,8 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js?$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['env']
-                }
+                test: /\.pug$/,
+                loader: 'pug-loader'
             },
             {
               test: /\.ts$/,
@@ -30,6 +26,9 @@ module.exports = {
       extensions: [ '.tsx', '.ts', '.js' ]
     },
     plugins: [
+        new HtmlWebpackPlugin({
+            template: './index.pug'
+        }),
         // new UglifyJSPlugin()
     ]
 }
