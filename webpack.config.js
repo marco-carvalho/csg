@@ -10,14 +10,24 @@ module.exports = {
         filename: 'app.bundle.js'
     },
     module: {
-        loaders: [{
+        loaders: [
+            {
             test: /\.js?$/,
             exclude: /node_modules/,
             loader: 'babel-loader',
             query: {
                 presets: ['env']
             }
-        }]
+            },
+            {
+              test: /\.ts$/,
+              use: 'ts-loader',
+              exclude: /node_modules/
+            }
+        ]
+    },
+    resolve: {
+      extensions: [ '.tsx', '.ts', '.js' ]
     },
     plugins: [
         // new UglifyJSPlugin()
