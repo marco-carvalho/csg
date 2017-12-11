@@ -17,7 +17,7 @@ This is a forked project from https://github.com/chandlerprall/ThreeCSG and kind
 
 ## Configuration:
 
-Open `./src/app.ts` and alter from `import group from "./examples/1";` to `import group from "./examples/2";`
+Open `./app.ts` and alter from `import group from "./src/examples/1";` to `import group from "./src/examples/2";`
 
 # Constructive Solid Geometry
 Constructive solid geometry (CSG) is a technique used in solid modeling that allows a modeler to create a complex surface/object by using **Boolean operators** (union, intersection, difference) on solid objects called **primitives** (cuboids, cylinders, prisms, pyramids, spheres, cones). With these elementary operations, it is possible to create objects with high complexity starting from simple ones.
