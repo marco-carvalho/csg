@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "webpack-dev-server",
-    "tsc": "tsc --watch"
+    "server": "webpack-dev-server"
   },
   "keywords": [],
   "author": "",
