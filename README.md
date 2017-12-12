@@ -45,6 +45,8 @@ In the image below, we have various examples represented by binary trees.
 
 Open `./app.ts` and alter from `import group from "./src/examples/1";` to `import group from "./src/examples/2";`
 
+If you intend to create more examples, use the early examples for some guidance and to see how it works.
+
 # How it works:
 
 1. Create a geometry (`let box = new THREE.BoxGeometry(3, 1, 1);`)
