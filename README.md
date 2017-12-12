@@ -49,6 +49,12 @@ Open `./app.ts` and alter from `import group from "./src/examples/1";` to `impor
 
 1. Create a geometry (`let box = new THREE.BoxGeometry(3, 1, 1);`)
 2. Use the geometry to create a mesh (`let boxMesh = new THREE.Mesh(box);`)
-  1. Optionally, you can set the x/y/z of this mesh (`boxMesh.position.x = -8;`)
+
+Optionally, you can set the x/y/z of this mesh (`boxMesh.position.x = -8;`)
+
 3. Use the mesh to create a instance of ThreeCSG (`let boxCSG = new ThreeCSG(boxMesh)`)
 4. Use the instance of ThreeCSG to create an final geometry (`let result = boxCSG.subtract(sphereCSG).toMesh(new THREE.MeshLambertMaterial());`)
+
+All boolean operations (union, intersection, difference) from the instance of `ThreeCSG` returns its own.
+By that means, we need to call `toMesh` so we can get an instance of `THREE.Mesh`.
+With the return of this method, we can apply it to some group/scene.
