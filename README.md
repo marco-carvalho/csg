@@ -1,7 +1,7 @@
 [simpleExample]:https://i.imgur.com/1rLiDz1.png
 [bigExample]:https://i.imgur.com/v2qAHTu.png
 
-This is a forked project from https://github.com/chandlerprall/ThreeCSG and kinda improved with the help of [Webpack](https://webpack.js.org/), [TypeScript](https://www.typescriptlang.org/) and [Pug](https://pugjs.org/api/getting-started.html).
+This is a forked project from https://github.com/chandlerprall/ThreeCSG and kinda improved with the help of [Webpack](https://webpack.js.org/), [Babel](https://babeljs.io/) and [Pug](https://pugjs.org/api/getting-started.html).
 
 # Constructive Solid Geometry
 
@@ -43,7 +43,7 @@ In the image below, we have various examples represented by binary trees.
 
 ## Configuration:
 
-Open `./app.ts` and alter from `import group from "./src/examples/1";` to `import group from "./src/examples/2";`
+Open `./app.js` and alter from `import group from "./src/examples/1";` to `import group from "./src/examples/2";`
 
 If you intend to create more examples, use the early examples for some guidance and to see how it works.
 
