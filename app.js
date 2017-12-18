@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import group from "./src/examples/1";
+import group from "./src/examples/2";
 
 const renderer = new THREE.WebGLRenderer();
 const light = new THREE.DirectionalLight();
@@ -21,10 +21,10 @@ scene.add(camera);
 
 scene.add(group);
 
-function animate(): void {
+const animate = function() {
     requestAnimationFrame(animate);
     group.rotation.y += 0.01;
     renderer.render(scene, camera);
-}
+};
 
 animate();

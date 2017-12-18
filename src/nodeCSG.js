@@ -1,17 +1,13 @@
 import {BACK} from "./threeCSG";
 
 export class NodeCSG {
-    private polygons;
-    private front;
-    private back;
-    private divider;
-
-    constructor(polygons?) {
+    constructor(polygons) {
         const front = [];
         const back = [];
 
         this.polygons = [];
-        this.front = this.back = undefined;
+        this.front = undefined;
+        this.back = undefined;
 
         if (!(polygons instanceof Array) || polygons.length === 0) {
             return;
@@ -32,7 +28,7 @@ export class NodeCSG {
         }
     }
 
-    public isConvex(polygons) {
+    static isConvex(polygons) {
         for (let i = 0; i < polygons.length; i++) {
             for (let j = 0; j < polygons.length; j++) {
                 if (i !== j && polygons[i].classifySide(polygons[j]) !== BACK) {
@@ -43,7 +39,7 @@ export class NodeCSG {
         return true;
     }
 
-    public build(polygons) {
+    build(polygons) {
         const front = [];
         const back = [];
 
@@ -70,7 +66,7 @@ export class NodeCSG {
         }
     }
 
-    public allPolygons() {
+    allPolygons() {
         let polygons = this.polygons.slice();
         if (this.front) {
             polygons = polygons.concat(this.front.allPolygons());
@@ -81,22 +77,18 @@ export class NodeCSG {
         return polygons;
     }
 
-    public clone() {
+    clone() {
         const node = new NodeCSG();
 
         node.divider = this.divider.clone();
-        node.polygons = this.polygons.map((polygon) => {
-            return polygon.clone();
-        });
+        node.polygons = this.polygons.map((polygon) => polygon.clone());
         node.front = this.front && this.front.clone();
         node.back = this.back && this.back.clone();
 
         return node;
     }
 
-    public invert() {
-        let temp;
-
+    invert() {
         for (const polygon of this.polygons) {
             polygon.flip();
         }
@@ -109,14 +101,14 @@ export class NodeCSG {
             this.back.invert();
         }
 
-        temp = this.front;
+        const temp = this.front;
         this.front = this.back;
         this.back = temp;
 
         return this;
     }
 
-    public clipPolygons(polygons) {
+    clipPolygons(polygons) {
         let front;
         let back;
 
@@ -140,7 +132,7 @@ export class NodeCSG {
         return front.concat(back);
     }
 
-    public clipTo(node) {
+    clipTo(node) {
         this.polygons = node.clipPolygons(this.polygons);
         if (this.front) {
             this.front.clipTo(node);

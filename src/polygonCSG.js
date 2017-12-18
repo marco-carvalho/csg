@@ -1,11 +1,7 @@
 import {EPSILON, BACK, COPLANAR, FRONT, SPANNING} from "./threeCSG";
 
 export class PolygonCSG {
-    private vertices;
-    private normal;
-    private w;
-
-    constructor(vertices?, normal?, w?) {
+    constructor(vertices) {
         if (!(vertices instanceof Array)) {
             vertices = [];
         }
@@ -14,11 +10,12 @@ export class PolygonCSG {
         if (vertices.length > 0) {
             this.calculateProperties();
         } else {
-            this.normal = this.w = undefined;
+            this.normal = undefined;
+            this.w = undefined;
         }
     }
 
-    public calculateProperties() {
+    calculateProperties() {
         const a = this.vertices[0];
         const b = this.vertices[1];
         const c = this.vertices[2];
@@ -30,7 +27,7 @@ export class PolygonCSG {
         return this;
     }
 
-    public clone() {
+    clone() {
         const polygon = new PolygonCSG();
 
         for (const vertice of this.vertices) {
@@ -41,7 +38,7 @@ export class PolygonCSG {
         return polygon;
     }
 
-    public flip() {
+    flip() {
         const vertices = [];
 
         this.normal.multiplyScalar(-1);
@@ -55,19 +52,18 @@ export class PolygonCSG {
         return this;
     }
 
-    public classifyVertex(vertex) {
+    classifyVertex(vertex) {
         const sideValue = this.normal.dot(vertex) - this.w;
 
         if (sideValue < -EPSILON) {
             return BACK;
         } else if (sideValue > EPSILON) {
             return FRONT;
-        } else {
-            return COPLANAR;
         }
+        return COPLANAR;
     }
 
-    public classifySide(polygon) {
+    classifySide(polygon) {
         let classification;
         let numPositive = 0;
         let numNegative = 0;
@@ -87,12 +83,11 @@ export class PolygonCSG {
             return BACK;
         } else if (numPositive === 0 && numNegative === 0) {
             return COPLANAR;
-        } else {
-            return SPANNING;
         }
+        return SPANNING;
     }
 
-    public splitPolygon(polygon, coplanarFront, coplanarBack, front, back) {
+    splitPolygon(polygon, coplanarFront, coplanarBack, front, back) {
         const classification = this.classifySide(polygon);
 
         if (classification === COPLANAR) {

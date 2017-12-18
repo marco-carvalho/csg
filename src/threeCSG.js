@@ -10,9 +10,6 @@ export const BACK = 2;
 export const SPANNING = 3;
 
 export class ThreeCSG {
-    private matrix;
-    private tree;
-
     constructor(geometry) {
         // Convert THREE.Geometry to ThreeCSG
         let face;
@@ -91,9 +88,9 @@ export class ThreeCSG {
         this.tree = new NodeCSG(polygons);
     }
 
-    public subtract(other_tree) {
+    subtract(otherTree) {
         let a = this.tree.clone();
-        const b = other_tree.tree.clone();
+        const b = otherTree.tree.clone();
 
         a.invert();
         a.clipTo(b);
@@ -108,9 +105,9 @@ export class ThreeCSG {
         return a;
     }
 
-    public union(other_tree) {
+    union(otherTree) {
         let a = this.tree.clone();
-        const b = other_tree.tree.clone();
+        const b = otherTree.tree.clone();
 
         a.clipTo(b);
         b.clipTo(a);
@@ -123,9 +120,9 @@ export class ThreeCSG {
         return a;
     }
 
-    public intersect(other_tree) {
+    intersect(otherTree) {
         let a = this.tree.clone();
-        const b = other_tree.tree.clone();
+        const b = otherTree.tree.clone();
 
         a.invert();
         b.clipTo(a);
@@ -139,14 +136,14 @@ export class ThreeCSG {
         return a;
     }
 
-    public toGeometry() {
+    toGeometry() {
         const matrix = new THREE.Matrix4().getInverse(this.matrix);
         const geometry = new THREE.Geometry();
         const polygons = this.tree.allPolygons();
-        const vertice_dict = {};
-        let vertex_idx_a;
-        let vertex_idx_b;
-        let vertex_idx_c;
+        const verticeDict = {};
+        let vertexIdxA;
+        let vertexIdxB;
+        let vertexIdxC;
         let vertex;
         let face;
         let verticeUvs;
@@ -160,42 +157,42 @@ export class ThreeCSG {
                 vertex = new THREE.Vector3(vertex.x, vertex.y, vertex.z);
                 vertex.applyMatrix4(matrix);
 
-                if (typeof vertice_dict[vertex.x + "," + vertex.y + "," + vertex.z] !== "undefined") {
-                    vertex_idx_a = vertice_dict[vertex.x + "," + vertex.y + "," + vertex.z];
-                } else {
+                if (typeof verticeDict[`${vertex.x}, ${vertex.y}, ${vertex.z}`] === "undefined") {
                     geometry.vertices.push(vertex);
-                    vertex_idx_a = vertice_dict[vertex.x + "," + vertex.y + "," + vertex.z];
-                    vertex_idx_a = geometry.vertices.length - 1;
+                    vertexIdxA = verticeDict[`${vertex.x}, ${vertex.y}, ${vertex.z}`];
+                    vertexIdxA = geometry.vertices.length - 1;
+                } else {
+                    vertexIdxA = verticeDict[`${vertex.x}, ${vertex.y}, ${vertex.z}`];
                 }
 
                 vertex = polygon.vertices[j - 1];
                 verticeUvs.push(new THREE.Vector2(vertex.uv.x, vertex.uv.y));
                 vertex = new THREE.Vector3(vertex.x, vertex.y, vertex.z);
                 vertex.applyMatrix4(matrix);
-                if (typeof vertice_dict[vertex.x + "," + vertex.y + "," + vertex.z] !== "undefined") {
-                    vertex_idx_b = vertice_dict[vertex.x + "," + vertex.y + "," + vertex.z];
-                } else {
+                if (typeof verticeDict[`${vertex.x}, ${vertex.y}, ${vertex.z}`] === "undefined") {
                     geometry.vertices.push(vertex);
-                    vertex_idx_b = vertice_dict[vertex.x + "," + vertex.y + "," + vertex.z];
-                    vertex_idx_b = geometry.vertices.length - 1;
+                    vertexIdxB = verticeDict[`${vertex.x}, ${vertex.y}, ${vertex.z}`];
+                    vertexIdxB = geometry.vertices.length - 1;
+                } else {
+                    vertexIdxB = verticeDict[`${vertex.x}, ${vertex.y}, ${vertex.z}`];
                 }
 
                 vertex = polygon.vertices[j];
                 verticeUvs.push(new THREE.Vector2(vertex.uv.x, vertex.uv.y));
                 vertex = new THREE.Vector3(vertex.x, vertex.y, vertex.z);
                 vertex.applyMatrix4(matrix);
-                if (typeof vertice_dict[vertex.x + "," + vertex.y + "," + vertex.z] !== "undefined") {
-                    vertex_idx_c = vertice_dict[vertex.x + "," + vertex.y + "," + vertex.z];
-                } else {
+                if (typeof verticeDict[`${vertex.x}, ${vertex.y}, ${vertex.z}`] === "undefined") {
                     geometry.vertices.push(vertex);
-                    vertex_idx_c = vertice_dict[vertex.x + "," + vertex.y + "," + vertex.z];
-                    vertex_idx_c = geometry.vertices.length - 1;
+                    vertexIdxC = verticeDict[`${vertex.x}, ${vertex.y}, ${vertex.z}`];
+                    vertexIdxC = geometry.vertices.length - 1;
+                } else {
+                    vertexIdxC = verticeDict[`${vertex.x}, ${vertex.y}, ${vertex.z}`];
                 }
 
                 face = new THREE.Face3(
-                    vertex_idx_a,
-                    vertex_idx_b,
-                    vertex_idx_c,
+                    vertexIdxA,
+                    vertexIdxB,
+                    vertexIdxC,
                     new THREE.Vector3(polygon.normal.x, polygon.normal.y, polygon.normal.z)
                 );
 
@@ -207,7 +204,7 @@ export class ThreeCSG {
         return geometry;
     }
 
-    public toMesh(material) {
+    toMesh(material) {
         const geometry = this.toGeometry();
         const mesh = new THREE.Mesh(geometry, material);
 
