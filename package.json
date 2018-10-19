@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "webpack-dev-server"
+    "server": "webpack-dev-server",
+    "build": "webpack",
+    "lint": "eslint src"
   },
   "keywords": [],
   "author": "",
