@@ -1,8 +1,3 @@
-[simpleExample]:https://i.imgur.com/1rLiDz1.png
-[bigExample]:https://i.imgur.com/v2qAHTu.png
-
-This is a forked project from https://github.com/chandlerprall/ThreeCSG and kinda improved with the help of [Webpack](https://webpack.js.org/), [Babel](https://babeljs.io/) and [Pug](https://pugjs.org/api/getting-started.html).
-
 # Constructive Solid Geometry
 
 Constructive solid geometry (CSG) is a technique used in solid modeling that allows a modeler to create a complex surface/object by using **Boolean operators** (union, intersection, difference) on solid objects called **primitives** (cuboids, cylinders, prisms, pyramids, spheres, cones). With these elementary operations, it is possible to create objects with high complexity starting from simple ones.
