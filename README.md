@@ -1,5 +1,7 @@
 # Constructive Solid Geometry
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/marco-carvalho/csg.svg)](https://greenkeeper.io/)
+
 Constructive solid geometry (CSG) is a technique used in solid modeling that allows a modeler to create a complex surface/object by using **Boolean operators** (union, intersection, difference) on solid objects called **primitives** (cuboids, cylinders, prisms, pyramids, spheres, cones). With these elementary operations, it is possible to create objects with high complexity starting from simple ones.
 
 In the image below, we have 3 examples.
