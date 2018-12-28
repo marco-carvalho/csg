@@ -5,7 +5,9 @@ module.exports = {
   mode: "development",
   entry: "./app.js",
   output: {
-    filename: "bundle.js"
+    filename: "[name].[chunkhash].js",
+    sourceMapFilename: "[name].[chunkhash].map",
+    chunkFilename: "[id].[chunkhash].js"
   },
   module: {
     rules: [
