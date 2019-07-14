@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import {NodeCSG} from "./nodeCSG";
-import {PolygonCSG} from "./polygonCSG";
-import {VertexCSG} from "./vertexCSG";
+import { NodeCSG } from "./nodeCSG";
+import { PolygonCSG } from "./polygonCSG";
+import { VertexCSG } from "./vertexCSG";
 
 export const EPSILON = 1e-5;
 export const COPLANAR = 0;
@@ -10,6 +10,9 @@ export const BACK = 2;
 export const SPANNING = 3;
 
 export class ThreeCSG {
+    public matrix;
+    public tree;
+
     constructor(geometry) {
         // Convert THREE.Geometry to ThreeCSG
         let face;

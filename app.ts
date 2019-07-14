@@ -7,7 +7,7 @@ const camera = new THREE.PerspectiveCamera(
     45,
     window.innerWidth / window.innerHeight,
     0.1,
-    1000
+    1000,
 );
 const scene = new THREE.Scene();
 
@@ -21,7 +21,7 @@ scene.add(camera);
 
 scene.add(group);
 
-const animate = function() {
+const animate = function () {
     requestAnimationFrame(animate);
     group.rotation.y += 0.01;
     renderer.render(scene, camera);

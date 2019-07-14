@@ -1,7 +1,11 @@
-import {EPSILON, BACK, COPLANAR, FRONT, SPANNING} from "./threeCSG";
+import { EPSILON, BACK, COPLANAR, FRONT, SPANNING } from "./threeCSG";
 
 export class PolygonCSG {
-    constructor(vertices) {
+    public vertices;
+    public normal;
+    public w;
+
+    public constructor(vertices) {
         if (!(vertices instanceof Array)) {
             vertices = [];
         }
@@ -15,7 +19,7 @@ export class PolygonCSG {
         }
     }
 
-    calculateProperties() {
+    public calculateProperties(): this {
         const a = this.vertices[0];
         const b = this.vertices[1];
         const c = this.vertices[2];
@@ -27,7 +31,7 @@ export class PolygonCSG {
         return this;
     }
 
-    clone() {
+    public clone(): PolygonCSG {
         const polygon = new PolygonCSG();
 
         for (const vertice of this.vertices) {
@@ -38,7 +42,7 @@ export class PolygonCSG {
         return polygon;
     }
 
-    flip() {
+    public flip(): this {
         const vertices = [];
 
         this.normal.multiplyScalar(-1);
@@ -52,7 +56,7 @@ export class PolygonCSG {
         return this;
     }
 
-    classifyVertex(vertex) {
+    public classifyVertex(vertex): 0 | 1 | 2 {
         const sideValue = this.normal.dot(vertex) - this.w;
 
         if (sideValue < -EPSILON) {
@@ -63,7 +67,7 @@ export class PolygonCSG {
         return COPLANAR;
     }
 
-    classifySide(polygon) {
+    public classifySide(polygon): 0 | 1 | 2 | 3 {
         let classification;
         let numPositive = 0;
         let numNegative = 0;
@@ -87,7 +91,7 @@ export class PolygonCSG {
         return SPANNING;
     }
 
-    splitPolygon(polygon, coplanarFront, coplanarBack, front, back) {
+    public splitPolygon(polygon, coplanarFront, coplanarBack, front, back): void {
         const classification = this.classifySide(polygon);
 
         if (classification === COPLANAR) {

@@ -1,0 +1,23 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:all"
+    ],
+    "jsRules": {},
+    "rules": {
+        "eofline": false,
+        "ordered-imports": false,
+        "no-default-import": false,
+        "no-default-export": false,
+        "completed-docs": false,
+        "member-ordering": false,
+        "match-default-export-name": false,
+        "object-literal-sort-keys": false,
+        "newline-per-chained-call": false,
+        "strict-boolean-expressions": false,
+        "no-magic-numbers": false,
+        "no-inferrable-types": false,
+        "newline-before-return": false
+    },
+    "rulesDirectory": []
+}

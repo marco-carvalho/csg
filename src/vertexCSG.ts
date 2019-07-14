@@ -1,7 +1,13 @@
 import * as THREE from "three";
 
 export class VertexCSG {
-    constructor(x, y, z, normal, uv) {
+    public x;
+    public y;
+    public z;
+    public normal;
+    public uv;
+
+    public constructor(x, y, z, normal, uv) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -9,32 +15,32 @@ export class VertexCSG {
         this.uv = uv || new THREE.Vector2();
     }
 
-    clone() {
+    public clone(): VertexCSG {
         return new VertexCSG(this.x, this.y, this.z, this.normal.clone(), this.uv.clone());
     }
 
-    add(vertex) {
+    public add(vertex): this {
         this.x += vertex.x;
         this.y += vertex.y;
         this.z += vertex.z;
         return this;
     }
 
-    subtract(vertex) {
+    public subtract(vertex): this {
         this.x -= vertex.x;
         this.y -= vertex.y;
         this.z -= vertex.z;
         return this;
     }
 
-    multiplyScalar(scalar) {
+    public multiplyScalar(scalar): this {
         this.x *= scalar;
         this.y *= scalar;
         this.z *= scalar;
         return this;
     }
 
-    cross(vertex) {
+    public cross(vertex): this {
         const x = this.x;
         const y = this.y;
         const z = this.z;
@@ -46,7 +52,7 @@ export class VertexCSG {
         return this;
     }
 
-    normalize() {
+    public normalize(): this {
         const length = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
 
         this.x /= length;
@@ -56,22 +62,22 @@ export class VertexCSG {
         return this;
     }
 
-    dot(vertex) {
+    public dot(vertex): number {
         return this.x * vertex.x + this.y * vertex.y + this.z * vertex.z;
     }
 
-    lerp(a, t) {
+    public lerp(a, t): this {
         this.add(a.clone().subtract(this).multiplyScalar(t));
         this.normal.add(a.normal.clone().sub(this.normal).multiplyScalar(t));
         this.uv.add(a.uv.clone().sub(this.uv).multiplyScalar(t));
         return this;
     }
 
-    interpolate(other, t) {
+    public interpolate(other, t): VertexCSG {
         return this.clone().lerp(other, t);
     }
 
-    applyMatrix4(m) {
+    public applyMatrix4(m): this {
         const x = this.x;
         const y = this.y;
         const z = this.z;
