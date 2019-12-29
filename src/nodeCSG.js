@@ -1,12 +1,7 @@
-import { BACK } from "./threeCSG";
+import {BACK} from "./threeCSG";
 
 export class NodeCSG {
-    public polygons;
-    public front;
-    public back;
-    public divider;
-
-    public constructor(polygons) {
+    constructor(polygons) {
         const front = [];
         const back = [];
 
@@ -33,7 +28,7 @@ export class NodeCSG {
         }
     }
 
-    public static isConvex(polygons) {
+    static isConvex(polygons) {
         for (let i = 0; i < polygons.length; i++) {
             for (let j = 0; j < polygons.length; j++) {
                 if (i !== j && polygons[i].classifySide(polygons[j]) !== BACK) {
@@ -44,7 +39,7 @@ export class NodeCSG {
         return true;
     }
 
-    public build(polygons): void {
+    build(polygons) {
         const front = [];
         const back = [];
 
@@ -71,7 +66,7 @@ export class NodeCSG {
         }
     }
 
-    public allPolygons() {
+    allPolygons() {
         let polygons = this.polygons.slice();
         if (this.front) {
             polygons = polygons.concat(this.front.allPolygons());
@@ -82,7 +77,7 @@ export class NodeCSG {
         return polygons;
     }
 
-    public clone(): NodeCSG {
+    clone() {
         const node = new NodeCSG();
 
         node.divider = this.divider.clone();
@@ -93,7 +88,7 @@ export class NodeCSG {
         return node;
     }
 
-    public invert(): this {
+    invert() {
         for (const polygon of this.polygons) {
             polygon.flip();
         }
@@ -113,7 +108,7 @@ export class NodeCSG {
         return this;
     }
 
-    public clipPolygons(polygons) {
+    clipPolygons(polygons) {
         let front;
         let back;
 
@@ -137,7 +132,7 @@ export class NodeCSG {
         return front.concat(back);
     }
 
-    public clipTo(node): void {
+    clipTo(node) {
         this.polygons = node.clipPolygons(this.polygons);
         if (this.front) {
             this.front.clipTo(node);
