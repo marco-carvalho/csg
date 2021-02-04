@@ -15,8 +15,8 @@
     "three": "^0.125.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
+    "@babel/core": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
     "babel-loader": "^8.2.2",
     "eslint": "^7.19.0",
     "html-webpack-plugin": "^4.5.1",
