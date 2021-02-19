@@ -19,7 +19,7 @@
     "@babel/preset-env": "^7.12.16",
     "babel-loader": "^8.2.2",
     "eslint": "^7.20.0",
-    "html-webpack-plugin": "^4.5.2",
+    "html-webpack-plugin": "^5.1.0",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "pug": "^3.0.0",
     "pug-loader": "^2.4.0",
