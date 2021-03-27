@@ -15,7 +15,7 @@
     "three": "^0.126.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
+    "@babel/core": "^7.13.13",
     "@babel/preset-env": "^7.13.10",
     "babel-loader": "^8.2.2",
     "eslint": "^7.23.0",
